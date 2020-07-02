@@ -112,6 +112,10 @@ socket_message[5] = function(id, _, err)
 		skynet.error("socket: error on unknown", id, err)
 		return
 	end
+	if s.callback then
+		skynet.error("socket: accpet error:", err)	
+		return
+	end
 	if s.connected then
 		skynet.error("socket: error on", id, err)
 	elseif s.connecting then
@@ -438,6 +442,7 @@ end
 
 socket.sendto = assert(driver.udp_send)
 socket.udp_address = assert(driver.udp_address)
+socket.netstat = assert(driver.info)
 
 function socket.warning(id, callback)
 	local obj = socket_pool[id]
